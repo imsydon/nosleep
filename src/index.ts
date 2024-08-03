@@ -14,11 +14,11 @@ app.get("/invoke", (c) => {
 	return c.text("invoked!");
 });
 
-app.get("/wake", (c) => {
+app.get("/wake", async (c) => {
 	// var wol = require("wake_on_lan");
 
 	let res;
-	wol.wake(macAddress, function (error) {
+	await wol.wake(macAddress, function (error) {
 		if (error) {
 			res = "error";
 		} else {
