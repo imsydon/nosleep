@@ -1,6 +1,7 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { macAddress } from "../macAddress";
+import * as wol from "wake_on_lan";
 
 const app = new Hono();
 
@@ -14,17 +15,18 @@ app.get("/invoke", (c) => {
 });
 
 app.get("/wake", (c) => {
-	var wol = require("wake_on_lan");
+	// var wol = require("wake_on_lan");
 
+	let res;
 	wol.wake(macAddress, function (error) {
 		if (error) {
-			return c.text("error");
+			res = "error";
 		} else {
-			return c.text("wol!");
+			res = "wol!";
 		}
 	});
 
-	return c.text("huh");
+	return c.text(res ?? "huh");
 });
 
 const port = 3000;
