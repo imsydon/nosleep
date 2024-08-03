@@ -18,13 +18,16 @@ app.get("/wake", async (c) => {
 	// var wol = require("wake_on_lan");
 
 	let res;
-	await wol.wake(macAddress, function (error) {
+	wol.wake(macAddress, function (error) {
 		if (error) {
 			res = "error";
 		} else {
 			res = "wol!";
 		}
 	});
+
+	await new Promise((r) => setTimeout(r, 2000));
+	console.log("waited 2s");
 
 	return c.text(res ?? "huh");
 });
